@@ -14,16 +14,16 @@ from datetime import date
 from pathlib import Path
 
 # Customize this list with your own portfolio names from myFund.pl
-PORTFOLIOS = ["Alfa", "Beta", "Gamma"]
+PORTFOLIOS = ["Główny", "IKE", "IKZE", "PPK"]
 
 BASE_PATH = Path(__file__).parent.parent
 GET_PORTFOLIO_PATH = Path(__file__).parent / "get_portfolio.py"
 HISTORY_PATH = Path(__file__).parent.parent / "portfolios_history.json"
 
 def fetch_portfolio_value(name: str):
-    cmd = ["python3", str(GET_PORTFOLIO_PATH), "--portfel", name, "--format", "json"]
+    cmd = ["python", "-X", "utf8", str(GET_PORTFOLIO_PATH), "--portfel", name, "--format", "json"]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=str(BASE_PATH), env={**os.environ})
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", check=True, cwd=str(BASE_PATH), env={**os.environ})
         data = json.loads(result.stdout)
         # get_portfolio.py zwraca JSON w formie: {"<portfel>": {"portfel": {...}}}
         # więc wartość trzeba pobrać z podklucza o nazwie portfela.
